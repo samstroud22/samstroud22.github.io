@@ -26,36 +26,31 @@
 <br>
 <p>Notes: I added tags to change the background color of my website, the text font, the text alignment, the text color, and the image sizes. I also added a gif and embedded a youtube video.</p>
 <body>
-    <h1>NASA Astronomy Picture of the Day</h1>
-    <div id="apod"></div>
+    <h1>Random Cat Images</h1>
+    <div id="catImages"></div>
 
     <script>
-        // Function to fetch data from the NASA APOD API and display it
-        function fetchAPOD() {
-            fetch('https://api.nasa.gov/planetary/apod?api_key=tbzOQxUkB8RLk7sZBhg4Dn0VWOIPuYaV5RfdIQvy')
+        // Function to fetch random cat images from the Cat API and generate HTML to display them
+        function fetchAndDisplayCatImages() {
+            fetch('https://api.thecatapi.com/v1/images/search?limit=5')
                 .then(response => response.json()) // Parse the JSON response
                 .then(data => {
-                    // Check if the media type is an image
-                    if (data.media_type === 'image') {
-                        // If it's an image, create an <img> element and set its src attribute
-                        const img = document.createElement('img');
-                        img.src = data.url;
-                        img.alt = data.title; // Set the alt attribute to the title of the image
-                        // Append the <img> element to the apod div
-                        document.getElementById('apod').appendChild(img);
-                    } else {
-                        // If it's not an image, display a message
-                        document.getElementById('apod').textContent = 'Today\'s APOD is not an image.';
-                    }
+                    // Generate HTML for each cat image
+                    const catImagesHTML = data.map(cat => `
+                        <img class="cat-image" src="${cat.url}" alt="Random Cat Image">
+                    `).join('');
+
+                    // Insert the generated HTML into the catImages div
+                    document.getElementById('catImages').innerHTML = catImagesHTML;
                 })
                 .catch(error => {
                     // Handle any errors that occur during the fetch operation
-                    console.error('Error fetching APOD:', error);
+                    console.error('Error fetching cat images:', error);
                 });
         }
 
-        // Call the fetchAPOD function when the page loads
-        window.onload = fetchAPOD;
+        // Call the fetchAndDisplayCatImages function when the page loads
+        window.onload = fetchAndDisplayCatImages;
     </script>
 </body>
 </html>
