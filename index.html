@@ -25,5 +25,33 @@
 <h4><iframe width="560" height="315" src="https://www.youtube.com/embed/7xiKnvMehQA?si=WJOQjP6F-17iz66E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></h4>
 <br>
 <p>Notes: I added tags to change the background color of my website, the text font, the text alignment, the text color, and the image sizes. I also added a gif and embedded a youtube video.</p>
+<h1>Random Cat Images</h1>
+    <div id="catImages"></div>
+
+    <script>
+        // Function to fetch random cat images from the Cat API and display them on the webpage
+        function fetchCatImages() {
+            fetch('https://api.thecatapi.com/v1/images/search?limit=5')
+                .then(response => response.json()) // Parse the JSON response
+                .then(data => {
+                    const catImagesContainer = document.getElementById('catImages');
+                    // Iterate through the array of cat images and create <img> elements for each
+                    data.forEach(cat => {
+                        const img = document.createElement('img');
+                        img.src = cat.url;
+                        img.alt = 'Random Cat Image';
+                        // Append each <img> element to the catImagesContainer
+                        catImagesContainer.appendChild(img);
+                    });
+                })
+                .catch(error => {
+                    // Handle any errors that occur during the fetch operation
+                    console.error('Error fetching cat images:', error);
+                });
+        }
+
+        // Call the fetchCatImages function when the page loads
+        window.onload = fetchCatImages;
+    </script>
 </body>
 </html>
